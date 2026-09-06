@@ -8,38 +8,14 @@ from locations.hours import DAYS, OpeningHours
 from locations.items import Feature
 from locations.storefinders.mapion import MapionSpider
 
-# The store list is served from a single wide "tile" (x=63&y=18) which
-# encompasses the whole of Japan, rather than needing to be paginated
-# through many individual map tiles like some other Mapion based sites.
-LIST_URL = "https://md.mapion.co.jp/b/misterdonut/attr/?t=attr_con&x=63&y=18&start={}"
-
-
 class MisterDonutJPSpider(MapionSpider):
     name = "mister_donut_jp"
     item_attributes = {"brand": "ミスタードーナツ", "brand_wikidata": "Q1065819"}
     allowed_domains = ["md.mapion.co.jp"]
-    list_url = LIST_URL
+    feature_url_template = "https://md.mapion.co.jp/b/misterdonut/attr/?t=attr_con&start={}"
 
-    def parse_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
-        item["ref"] = data.get("id")
-        item["name"] = self.item_attributes["brand"]
+    def post_process_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
         item["branch"] = data.get("map_name")
-        item["addr_full"] = data.get("full_address")
-        item["postcode"] = data.get("zip_code")
-
-        if tel := data.get("tel"):
-            item["phone"] = "+81 " + tel
-
-        # Despite the "Tky" suffix the site applies to these fields in its
-        # schema.org markup (latitudeTky/longitudeTky), window.infoJSON's
-        # plain latitude/longitude values are already correct WGS84 and
-        # match real store addresses/landmarks closely. The page's
-        # schema.org/GeoCoordinates microdata is the one that's wrong: it
-        # applies a spurious Tokyo Datum correction to already-WGS84 data,
-        # landing stores ~300-400m away (verified against several stores'
-        # real-world addresses), so it must not be used.
-        item["lat"] = data.get("latitude")
-        item["lon"] = data.get("longitude")
 
         if (open_time := data.get("open_time")) and (close_time := data.get("close_time")):
             # close_time occasionally has a trailing free-text exception note
