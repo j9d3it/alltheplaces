@@ -8,6 +8,7 @@ from locations.hours import DAYS, OpeningHours
 from locations.items import Feature
 from locations.storefinders.mapion import MapionSpider
 
+
 class MisterDonutJPSpider(MapionSpider):
     name = "mister_donut_jp"
     item_attributes = {"brand": "ミスタードーナツ", "brand_wikidata": "Q1065819"}

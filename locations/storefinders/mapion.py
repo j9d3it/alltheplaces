@@ -5,8 +5,8 @@ from typing import AsyncIterator, Iterable
 from scrapy import Spider
 from scrapy.http import Request, Response
 
-from locations.items import Feature
 from locations.dict_parser import DictParser
+from locations.items import Feature
 
 
 class MapionSpider(Spider):
@@ -49,7 +49,7 @@ class MapionSpider(Spider):
 
     def pre_process_data(self, data: dict, **kwargs) -> None:
         """Override with any pre-processing on the item."""
-    
+
     def post_process_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
         """Override with any post-processing on the item."""
         yield item
