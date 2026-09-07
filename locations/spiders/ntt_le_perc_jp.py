@@ -16,6 +16,7 @@ class NttLePercJPSpider(MapionSpider):
     def post_process_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
         apply_category(Categories.PARKING, item)
         item["extras"]["fee"] = "yes"
+        item["phone"] = None
         if car_count := data.get("car_count"):
             item["extras"]["capacity"] = car_count
 
