@@ -14,10 +14,12 @@ class NttLePercJPSpider(MapionSpider):
     feature_url_template = "https://sasp.mapion.co.jp/b/leperc/attr/?t=attr_con&start={}"
 
     def post_process_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
-        apply_category(Categories.PARKING, item)
-        item["extras"]["fee"] = "yes"
         item["phone"] = None
+        item["name"] = None
         if car_count := data.get("car_count"):
             item["extras"]["capacity"] = car_count
+
+        apply_category(Categories.PARKING, item)
+        item["extras"]["fee"] = "yes"
 
         yield item

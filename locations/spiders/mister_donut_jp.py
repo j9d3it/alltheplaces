@@ -16,6 +16,7 @@ class MisterDonutJPSpider(MapionSpider):
     feature_url_template = "https://md.mapion.co.jp/b/misterdonut/attr/?t=attr_con&start={}"
 
     def post_process_item(self, item: Feature, data: dict, response: Response) -> Iterable[Feature]:
+        item["name"] = None
         item["branch"] = data.get("map_name")
 
         if (open_time := data.get("open_time")) and (close_time := data.get("close_time")):
