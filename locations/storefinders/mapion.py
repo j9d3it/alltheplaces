@@ -44,6 +44,8 @@ class MapionSpider(Spider):
 
         item = DictParser.parse(data)
         item["extras"]["addr:province"] = data.get("kenname")
+        if ruby := data.get("poi_name_yomi"):
+            item["extras"]["branch:ja-Hira"] = ruby
         item["website"] = response.url
         yield from self.post_process_item(item, data, response) or []
 
