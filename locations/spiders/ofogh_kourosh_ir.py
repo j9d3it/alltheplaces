@@ -20,7 +20,6 @@ class OfoghKouroshIrSpider(Spider):
     item_attributes = {"brand": "افق کوروش", "brand_wikidata": "Q65199490"}
     # direct requests time out from outside Iran (CI got 0 pages in 120s);
     # fetch via Zyte, IR geolocation is derived from the spider name suffix
-    requires_proxy = True
     allowed_domains = ["okcs.com"]
     start_urls = ["https://okcs.com/stores"]
     custom_settings = {
