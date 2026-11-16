@@ -69,7 +69,7 @@ class ArclandSpider(LocationCloudSpider):
         flags = {flag["label"]: flag["value"] == "true" for flag in detail["flags"].values()}
 
         apply_yes_no(Extras.PARKING, item, flags.get("駐車場あり"))
-        apply_yes_no(Extras.TAKEAWAY, item, flags.get("駐車場あり"))
+        apply_yes_no(Extras.TAKEAWAY, item, flags.get("テイクアウト"))
         apply_yes_no(Extras.DELIVERY, item, flags.get("デリバリー"))
 
         yield item
