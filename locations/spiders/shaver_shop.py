@@ -18,7 +18,6 @@ class ShaverShopSpider(JSONBlobSpider):
     ]
     locations_key = "stores"
     custom_settings = {"ROBOTSTXT_OBEY": False}
-    requires_proxy = True
 
     async def start(self) -> AsyncIterator[JsonRequest]:
         for url in self.start_urls:
